@@ -46,3 +46,29 @@ test('binar', () => {
     }
   }
 });
+
+test('vs json', () => {
+  const data = [
+    [DataType.Number, Math.random()],
+    [DataType.Number, Math.random()],
+    [DataType.String, 'Hello World'],
+  ];
+
+  const n = 10000;
+
+  let res1: any;
+  const t1 = Date.now();
+  for (let i = 0; i < n; i += 1) {
+    res1 = encodeBinar(data as any).toString('base64');
+  }
+  console.log('binar', (Date.now() - t1) / n, res1);
+
+  let res2: any;
+  const t2 = Date.now();
+  for (let i = 0; i < n; i += 1) {
+    res2 = Buffer.from(JSON.stringify(data.map((x) => x[1]))).toString(
+      'base64'
+    );
+  }
+  console.log('json', (Date.now() - t2) / n, res2);
+});
